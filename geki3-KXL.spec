@@ -13,8 +13,6 @@ URL:		http://www2.mwnet.or.jp/~fc3srx7/
 BuildRequires:	KXL-devel >= 1.1.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
-%define		_mandir		%{_prefix}/man
 
 %description
 2D horizon scroll shooting game.
