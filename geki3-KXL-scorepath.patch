@@ -1,0 +1,54 @@
+diff -Nur geki3-KXL-1.0.3.orig/configure.in geki3-KXL-1.0.3/configure.in
+--- geki3-KXL-1.0.3.orig/configure.in	2002-11-12 04:02:07.000000000 +0100
++++ geki3-KXL-1.0.3/configure.in	2003-05-10 21:24:45.000000000 +0200
+@@ -29,10 +29,17 @@
+         BMP_PATH=$prefix/share/geki3/bmp
+         WAV_PATH=$prefix/share/geki3/wav
+ fi
++if test "x$localstatedir" = "xNONE"; then
++	SCORE_PATH=/var/games
++else
++	SCORE_PATH=$localstatedir/games
++fi
+ AC_DEFINE_UNQUOTED(DATA_PATH,"$DATA_PATH")
++AC_DEFINE_UNQUOTED(SCORE_PATH,"$SCORE_PATH")
+ AC_DEFINE_UNQUOTED(BMP_PATH,"$BMP_PATH")
+ AC_DEFINE_UNQUOTED(WAV_PATH,"$WAV_PATH")
+ AC_DEFINE_UNQUOTED(TITLE,"$PACKAGE $VERSION")
++AC_SUBST(SCORE_PATH)
+ AC_SUBST(DATA_PATH)
+ AC_SUBST(BMP_PATH)
+ AC_SUBST(WAV_PATH)
+diff -Nur geki3-KXL-1.0.3.orig/data/Makefile.am geki3-KXL-1.0.3/data/Makefile.am
+--- geki3-KXL-1.0.3.orig/data/Makefile.am	2002-08-05 12:35:58.000000000 +0200
++++ geki3-KXL-1.0.3/data/Makefile.am	2003-05-10 21:25:39.000000000 +0200
+@@ -2,5 +2,6 @@
+ data_DATA = stage1.dat stage2.dat stage3.dat stage4.dat
+ EXTRA_DIST = stage1.dat stage2.dat stage3.dat stage4.dat .score
+ 
+-install:
+-	$(INSTALL) -c -m 666 ./.score $(DESTDIR)$(DATA_PATH)
++install-data-local:
++	$(INSTALL) -d -m 755 $(DESTDIR)$(SCORE_PATH)
++	$(INSTALL) -c -m 666 ./.score $(DESTDIR)$(SCORE_PATH)/geki3.score
+diff -Nur geki3-KXL-1.0.3.orig/src/ranking.c geki3-KXL-1.0.3/src/ranking.c
+--- geki3-KXL-1.0.3.orig/src/ranking.c	2002-08-05 12:35:58.000000000 +0200
++++ geki3-KXL-1.0.3/src/ranking.c	2003-05-10 21:25:05.000000000 +0200
+@@ -37,7 +37,7 @@
+   FILE *fp;
+   Uint16 i;
+ 
+-  if ((fp = fopen(DATA_PATH "/.score", "r"))) {
++  if ((fp = fopen(SCORE_PATH "/geki3.score", "r"))) {
+     fscanf(fp, "%d", &(Root->HiScore));
+     for (i = 0; i < 5; i ++)
+       fscanf(fp, "%d %d %d %s",
+@@ -69,7 +69,7 @@
+   FILE *fp;
+   Uint16 i;
+ 
+-  if ((fp = fopen(DATA_PATH "/.score", "w"))) {
++  if ((fp = fopen(SCORE_PATH "/geki3.score", "w"))) {
+     fprintf(fp, "%d\n", Root->HiScore);
+     for (i = 0; i < 5; i ++)
+       fprintf(fp, "%d %d %d %s\n",

@@ -1,47 +1,53 @@
-#
-# TODO: move score file(s) to /var/games
-#
 Summary:	Geki3, a video-oriented game
 Summary(pl):	Geki3 - gra wideo
 Name:		geki3-KXL
-Version:	1.0.2
-Release:	0.1
+Version:	1.0.3
+Release:	1
 License:	GPL
 Group:		X11/Applications/Games
-Source:		http://www2.mwnet.or.jp/~fc3srx7/download/%{name}-%{version}.tar.gz
-URL:		http://www2.mwnet.or.jp/~fc3srx7/
-BuildRequires:	KXL-devel >= 1.1.1
+Source0:	http://kxl.hn.org/download/%{name}-%{version}.tar.gz
+Patch0:		%{name}-scorepath.patch
+URL:		http://kxl.hn.org/games.php
+BuildRequires:	KXL-devel >= 1.1.5
+BuildRequires:	autoconf
+BuildRequires:	automake
+Requires:	KXL >= 1.1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
 
 %description
 2D horizon scroll shooting game.
 
 %description -l pl
-Przewijana strzelanka 2D.
+Poziomo przewijana strzelanka 2D.
 
 %prep
 %setup -q
+%patch -p1
 
 %build
-%configure2_13
+%{__aclocal}
+%{__autoconf}
+%{__automake}
+%configure
+
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} DESTDIR=$RPM_BUILD_ROOT install
+
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/geki3
-%doc COPYING ChangeLog README
+%doc ChangeLog README
+%attr(2755,root,games) %{_bindir}/geki3
 %dir %{_datadir}/geki3
 %{_datadir}/geki3/bmp
 %{_datadir}/geki3/wav
 %dir %{_datadir}/geki3/data
 %{_datadir}/geki3/data/*.dat
-# MOVE TO /var/games!!!
-%config(noreplace) %{_datadir}/geki3/data/.score
+%attr(644,root,games) %config(noreplace) %verify(not size mtime md5) /var/games/geki3.score
