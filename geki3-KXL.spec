@@ -10,6 +10,7 @@ Source0:	http://kxl.hn.org/download/%{name}-%{version}.tar.gz
 Patch0:		%{name}-scorepath.patch
 URL:		http://kxl.hn.org/games.php
 BuildRequires:	KXL-devel >= 1.1.5
+BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 Requires:	KXL >= 1.1.5
