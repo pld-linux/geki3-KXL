@@ -1,5 +1,5 @@
 Summary:	Geki3, a video-oriented game
-Summary(pl):	Geki3 - gra wideo
+Summary(pl.UTF-8):   Geki3 - gra wideo
 Name:		geki3-KXL
 Version:	1.0.3
 Release:	1
@@ -19,7 +19,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 2D horizon scroll shooting game.
 
-%description -l pl
+%description -l pl.UTF-8
 Poziomo przewijana strzelanka 2D.
 
 %prep
