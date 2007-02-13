@@ -1,5 +1,5 @@
 Summary:	Geki3, a video-oriented game
-Summary(pl.UTF-8):   Geki3 - gra wideo
+Summary(pl.UTF-8):	Geki3 - gra wideo
 Name:		geki3-KXL
 Version:	1.0.3
 Release:	1
